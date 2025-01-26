@@ -3,12 +3,15 @@ package entities;
 import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
+import java.util.function.Function;
 
 public abstract class Exercise {
     protected Integer key;
     protected String problemStatement;
     protected LinkedHashMap<String, Double> parameters;
     protected Scanner sc = new Scanner(System.in);
+    protected Function<Double, Boolean> inputValidationFunction;
+    protected String invalidInputMessage = "";
 
     protected Exercise(Integer key, String exerciseStatement, String... args) {
         this.key = key;
@@ -17,6 +20,18 @@ public abstract class Exercise {
         for (String arg : args) {
             this.parameters.put(arg, null);
         }
+        this.inputValidationFunction = value -> true;
+    }
+
+    protected Exercise(Integer key, String exerciseStatement, Function<Double, Boolean> inputValidationFunction, String invalidInputMessage, String... args) {
+        this.key = key;
+        this.problemStatement = exerciseStatement;
+        this.parameters = new LinkedHashMap<>();
+        for (String arg : args) {
+            this.parameters.put(arg, null);
+        }
+        this.inputValidationFunction = inputValidationFunction;
+        this.invalidInputMessage = invalidInputMessage;
     }
 
     protected void addNewParameter(String key, Double parameter) {
@@ -44,11 +59,17 @@ public abstract class Exercise {
         Double inputValue = null;
 
         for (String key : parameters.keySet()) {
-            System.out.printf("%s: ", key);
-            try {
-                inputValue = sc.nextDouble();
-            } catch (InputMismatchException e) {
-                System.out.println("Só será aceito números !");
+            boolean validInput = false;
+
+            while (!validInput) {
+                System.out.printf("%s: ", key);
+                try {
+                    inputValue = sc.nextDouble();
+                    validInput = inputValidationFunction.apply(inputValue);
+                } catch (InputMismatchException e) {
+                    System.out.println("Só será aceito números !");
+                }
+                System.out.print(" " + invalidInputMessage);
             }
 
             parameters.put(key, inputValue);
