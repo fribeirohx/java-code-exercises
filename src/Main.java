@@ -1,5 +1,8 @@
+import exercises._1.Exercise_1;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        var e = new Exercise_1();
+        e.run();
     }
 }

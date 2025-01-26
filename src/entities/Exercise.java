@@ -58,13 +58,12 @@ public abstract class Exercise {
     protected abstract void process();
 
     public void test() {
-        System.out.println("Testando os valores!");
         System.out.println(this.parameters);
         process();
     }
 
     public void run() {
-        System.out.println(this.problemStatement);
+        System.out.printf("%d - %s%n", this.key, this.problemStatement);
         readInputValues();
         process();
         sc.close();

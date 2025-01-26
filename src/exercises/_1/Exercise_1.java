@@ -2,6 +2,7 @@ package exercises._1;
 
 import entities.Exercise;
 
+//1 - Faça um algoritmo que leia os valores de A, B, C e em seguida imprima na tela a soma entre A e B é mostre se a soma é menor que C.
 public class Exercise_1 extends Exercise {
     public Exercise_1() {
         super(
