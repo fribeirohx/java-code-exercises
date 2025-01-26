@@ -66,7 +66,10 @@ public abstract class Exercise {
 
                     inputValue = sc.nextDouble();
                     validInput = inputValidationFunction.apply(inputValue);
-                    System.out.printf("%s%n", validInput ? "" : invalidInputMessage);
+
+                    if (!validInput) {
+                        System.out.println(invalidInputMessage);
+                    }
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Só será aceito números !");
@@ -74,6 +77,11 @@ public abstract class Exercise {
 
             parameters.put(key, inputValue);
         }
+    }
+
+    protected void setInputValidationFunction(Function<Double, Boolean> inputValidationFunction, String invalidInputMessage) {
+        this.inputValidationFunction = inputValidationFunction;
+        this.invalidInputMessage = invalidInputMessage;
     }
 
     protected abstract void process();
