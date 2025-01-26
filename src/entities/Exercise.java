@@ -60,16 +60,16 @@ public abstract class Exercise {
 
         for (String key : parameters.keySet()) {
             boolean validInput = false;
+            try {
+                while (!validInput) {
+                    System.out.printf("%s: ", key);
 
-            while (!validInput) {
-                System.out.printf("%s: ", key);
-                try {
                     inputValue = sc.nextDouble();
                     validInput = inputValidationFunction.apply(inputValue);
-                } catch (InputMismatchException e) {
-                    System.out.println("Só será aceito números !");
+                    System.out.printf("%s%n", validInput ? "" : invalidInputMessage);
                 }
-                System.out.print(" " + invalidInputMessage);
+            } catch (InputMismatchException e) {
+                System.out.println("Só será aceito números !");
             }
 
             parameters.put(key, inputValue);
